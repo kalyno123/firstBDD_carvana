@@ -16,8 +16,12 @@ public class CarvanaHomePage{
     @FindBy (css = "div[data-qa='header-items']>a")
     public List<WebElement> mainMenuItemLinks; // 3
 
+    @FindBy (css = "div[data-cv-test='headerFinanceDropdown']>a")
+    public WebElement financingLink;
+
     @FindBy (css = "div[class*='HeaderFinancingstyles__StyledDropDown']>a")
     public List<WebElement> financingMenuLinks; // 3
+
 
     public void clickOnMenuLink(String linkText){
         for(WebElement link : mainMenuItemLinks){

@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.WebDriver;
 import pages.*;
+import utils.ActionsUtil;
 import utils.Driver;
 import utils.DropDownHandler;
 
@@ -94,9 +95,21 @@ public class CarvanaSteps {
 
     @When("user clicks on {string} button")
     public void user_clicks_on_button(String button) {
-        Assert.assertTrue(sellTradePage.vinButton.isDisplayed());
-        Assert.assertTrue(sellTradePage.vinButton.isEnabled());
-        sellTradePage.vinButton.click();
+        switch (button){
+            case "VIN":
+                Assert.assertTrue(sellTradePage.vinButton.isDisplayed());
+                Assert.assertTrue(sellTradePage.vinButton.isEnabled());
+                sellTradePage.vinButton.click();
+                break;
+            case "GET MY OFFER":
+                Assert.assertTrue(sellTradePage.getYourOfferButton.isDisplayed());
+                Assert.assertTrue(sellTradePage.getYourOfferButton.isEnabled());
+                sellTradePage.getYourOfferButton.click();
+                break;
+            default:
+                throw new NotFoundException("The button is not defined properly in the feature file!!!");
+        }
+
     }
 
     @When("user enters vin number as {string}")
@@ -105,8 +118,12 @@ public class CarvanaSteps {
     }
 
     @When("user hovers over on {string} menu item")
-    public void user_hovers_over_on_menu_item(String string) {
-       // ActionsUtil.moveToElement(carvanaHomePage.financingMenuLinks);
+    public void user_hovers_over_on_menu_item(String linkText) {
+        if (linkText.equals("FINANCING")) {
+            ActionsUtil.moveToElement(carvanaHomePage.financingLink);
+        } else {
+            throw new NotFoundException("The link is not defined properly in the feature file!!!");
+        }
     }
 
     @When("user enters {string} as {string}")
@@ -139,6 +156,7 @@ public class CarvanaSteps {
 
     @Then("user should see the monthly payment as {string}")
     public void user_should_see_the_monthly_payment_as(String string) {
-        
+        Assert.assertTrue(loanCalculatorPage.loanCalculatorResult.isDisplayed());
+        Assert.assertEquals(string, loanCalculatorPage.loanCalculatorResult.getText());
     }
 }
